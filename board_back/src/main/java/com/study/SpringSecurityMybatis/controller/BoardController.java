@@ -27,4 +27,22 @@ public class BoardController {
     public ResponseEntity<?> getDetail(@PathVariable Long boardId) {
         return ResponseEntity.ok().body(boardService.getBoardDetail(boardId));
     }
+
+    @GetMapping("/board/{boardId}/like")
+    public ResponseEntity<?> getLikeInfo(@PathVariable Long boardId) {
+        return ResponseEntity.ok().body(boardService.getBoardLike(boardId));
+    }
+
+    @PostMapping("/board/{boardId}/like")
+    public ResponseEntity<?> like(@PathVariable Long boardId) {
+        boardService.like(boardId);
+        return ResponseEntity.ok().body(true);
+    }
+
+    @DeleteMapping("/board/like/{boardLikeId}")
+    public ResponseEntity<?> dislike(@PathVariable Long boardLikeId) {
+        boardService.dislike(boardLikeId);
+        return ResponseEntity.ok().body(true);
+    }
+
 }

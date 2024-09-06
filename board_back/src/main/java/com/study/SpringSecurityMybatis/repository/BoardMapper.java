@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BoardMapper {
     int save(Board board);
     Board findById(Long id);
+    int modifyViewCountById(Long id);
 }

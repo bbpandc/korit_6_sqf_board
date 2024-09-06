@@ -41,4 +41,10 @@
 --    user_id BIGINT not null
 --);
 
-ALTER TABLE BOARD ADD COLUMN view_count INT NOT NULL DEFAULT 0;
+--ALTER TABLE BOARD ADD COLUMN view_count INT NOT NULL DEFAULT 0;
+
+CREATE TABLE board_like (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    board_id BIGINT not null,
+    user_id BIGINT not null
+);

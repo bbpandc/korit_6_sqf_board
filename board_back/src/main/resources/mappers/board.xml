@@ -24,6 +24,14 @@
         values(default, #{title}, #{content}, #{userId}, default)
     </insert>
 
+    <update id="modifyViewCountById">
+        update board
+        set
+            view_count = view_count + 1
+        where
+            id = #{id}
+    </update>
+
     <select id="findById" resultMap="boardResultMap">
         select
             b.id as board_id,
