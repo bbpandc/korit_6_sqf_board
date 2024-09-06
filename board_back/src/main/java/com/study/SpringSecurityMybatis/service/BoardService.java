@@ -1,6 +1,7 @@
 package com.study.SpringSecurityMybatis.service;
 
 import com.study.SpringSecurityMybatis.dto.request.ReqWriteBoardDto;
+import com.study.SpringSecurityMybatis.dto.response.RespBoardDetailDto;
 import com.study.SpringSecurityMybatis.entity.Board;
 import com.study.SpringSecurityMybatis.repository.BoardMapper;
 import com.study.SpringSecurityMybatis.security.principal.PrincipalUser;
@@ -21,5 +22,16 @@ public class BoardService {
         boardMapper.save(board);
 
         return board.getId();
+    }
+
+    public RespBoardDetailDto getBoardDetail(Long boardId) {
+        Board board = boardMapper.findById(boardId);
+        return RespBoardDetailDto.builder()
+                .boardId(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .writerId(board.getUserId())
+                .writerUsername(board.getUser().getUsername())
+                .build();
     }
 }

@@ -14,4 +14,7 @@ public class Board {
     private String title;
     private String content;
     private Long userId;
+    private int viewCount;
+
+    private User user;
 }

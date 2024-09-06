@@ -7,8 +7,9 @@ import ImageResize from 'quill-image-resize';
 import { storage } from '../../../firebase/firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuid } from 'uuid';
-import { CircleLoader, RingLoader } from 'react-spinners';
+import { RingLoader } from 'react-spinners';
 import { instance } from '../../../apis/util/instance';
+import { useNavigate } from 'react-router-dom';
 Quill.register("modules/imageResize", ImageResize);
 
 const layout = css`
@@ -78,6 +79,7 @@ const loadingLayout = css`
 `;
 
 function WritePage(props) {
+    const navigate = useNavigate();
     const [ board, setBoard ] = useState({
         title: "",
         content: ""
@@ -85,28 +87,49 @@ function WritePage(props) {
     const quillRef = useRef(null);
     const [ isUploading, setUploading ] = useState(false);
 
-    const handleWriteSubmitOnClick = () => {
-        instance.post("/board", board)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-                const fieldErrors = error.response.data;
+    const handleWriteSubmitOnClick = async () => {
+        try {
+            const response = await instance.post("/board", board);
+            alert("작성이 완료되었습니다.");
+            navigate(`/board/detail/${response.data.boardId}`);
+        } catch(error) {
+            const fieldErrors = error.response.data;
 
-                for(let fieldError of fieldErrors) {
-                    if(fieldError.field === "title") {
-                        alert(fieldError.defaultMessage);
-                        return;
-                    }
+            for(let fieldError of fieldErrors) {
+                if(fieldError.field === "title") {
+                    alert(fieldError.defaultMessage);
+                    return;
                 }
-                for(let fieldError of fieldErrors) {
-                    if(fieldError.field === "content") {
-                        alert(fieldError.defaultMessage);
-                        return;
-                    }
+            }
+            for(let fieldError of fieldErrors) {
+                if(fieldError.field === "content") {
+                    alert(fieldError.defaultMessage);
+                    return;
                 }
-            });
+            }
+        }
+
+        // instance.post("/board", board)
+        //     .then((response) => {
+        //         alert("작성이 완료되었습니다.");
+        //         navigate(`/board/detail/${response.data.boardId}`);
+        //     })
+        //     .catch((error) => {
+        //         const fieldErrors = error.response.data;
+
+        //         for (let fieldError of fieldErrors) {
+        //             if (fieldError.field === "title") {
+        //                 alert(fieldError.defaultMessage);
+        //                 return;
+        //             }
+        //         }
+        //         for (let fieldError of fieldErrors) {
+        //             if (fieldError.field === "content") {
+        //                 alert(fieldError.defaultMessage);
+        //                 return;
+        //             }
+        //         }
+        //     });
     }
 
     const handleTitleInputOnChange = (e) => {
