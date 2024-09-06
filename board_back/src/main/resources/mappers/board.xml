@@ -21,10 +21,10 @@
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into board
-        values(default, #{title}, #{content}, #{userId})
+        values(default, #{title}, #{content}, #{userId}, default)
     </insert>
 
-    <select id="findById" resultType="com.study.SpringSecurityMybatis.entity.Board">
+    <select id="findById" resultMap="boardResultMap">
         select
             b.id as board_id,
             b.title,
