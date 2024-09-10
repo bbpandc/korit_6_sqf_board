@@ -1197,3 +1197,6 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:622)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 18 more
+2024-09-10 15:50:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TRIGGER BEFORE_DELETE_COMMENT BEFORE DELETE ON COMMENT FOR EACH ROW BEGIN[*] DELETE FROM COMMENT WHERE PARENT_ID = OLD.ID END"; expected "QUEUE, NOWAIT, AS, CALL"; SQL statement:
+CREATE TRIGGER before_delete_comment BEFORE DELETE ON comment FOR EACH ROW BEGIN delete from comment where parent_id = old.id END [42001-200]
