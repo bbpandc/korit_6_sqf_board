@@ -40,12 +40,15 @@ const paginateContainer = css`
 `;
 
 function NumberBoardListPage(props) {
+                                //  param?searchParam
+    // http://localhost:3000/board/number?page=37
     const [searchParams, setSearchParams] = useSearchParams();
     const [totalPageCount, setTotalPageCount] = useState(1);
     const navigate = useNavigate();
     const limit = 10;
 
     const boardList = useQuery(
+        // ["키값", 디펜던시]
         ["boardListQuery", searchParams.get("page")],
         async () => await instance.get(`/board/list?page=${searchParams.get("page")}&limit=${limit}`),
         {
@@ -53,12 +56,12 @@ function NumberBoardListPage(props) {
             onSuccess: response => setTotalPageCount(
                 response.data.totalCount % limit === 0 
                 ? response.data.totalCount / limit 
-                : (response.data.totalCount / limit) + 1)
+                : Math.floor(response.data.totalCount / limit) + 1)
         }
     );
 
-    const handlePageOnChange = (event) => {
-        navigate(`/board/number?page=${event.selected + 1}`);
+    const handlePageOnChange = (e) => {
+        navigate(`/board/number?page=${e.selected + 1}`);
     }
 
     return (
@@ -77,19 +80,19 @@ function NumberBoardListPage(props) {
                 <tbody>
                     {
                         boardList.isLoading
-                        ?
-                        <></>
-                        :
-                        boardList.data.data.boards.map(board =>
-                            <tr key={board.id} onClick={() => navigate(`/board/detail/${board.id}`)}>
-                                <td>{board.id}</td>
-                                <td>{board.title}</td>
-                                <td>{board.writerName}</td>
-                                <td>{board.likeCount}</td>
-                                <td>{board.viewCount}</td>
-                            </tr>
+                            ?
+                            <></>
+                            :
+                            boardList.data.data.boards.map(board =>
+                                <tr key={board.id} onClick={() => navigate(`/board/detail/${board.id}`)}>
+                                    <td>{board.id}</td>
+                                    <td>{board.title}</td>
+                                    <td>{board.writerName}</td>
+                                    <td>{board.likeCount}</td>
+                                    <td>{board.viewCount}</td>
+                                </tr>
 
-                        )
+                            )
                     }
                 </tbody>
             </table>
@@ -98,7 +101,7 @@ function NumberBoardListPage(props) {
                     breakLabel="..."
                     previousLabel={<><IoMdArrowDropleft /></>}
                     nextLabel={<><IoMdArrowDropright /></>}
-                    pageCount={totalPageCount - 1}
+                    pageCount={totalPageCount}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     activeClassName='active'
