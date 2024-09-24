@@ -16,6 +16,8 @@ public interface BoardMapper {
             @Param("startIndex") Long startIndex,
             @Param("limit") Long limit);
     List<BoardList> findAllBySearch(Map<String, Object> params);
+    int modify(Long id);
+    int delete(Long id);
 
     int modifyViewCountById(Long id);
     int getCountAll();

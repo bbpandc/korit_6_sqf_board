@@ -227,6 +227,28 @@ function DetailPage(props) {
         }
     );
 
+    const boardUpdateMutation = useMutation(
+        async () => {
+            return await instance.put(`/board/${boardId}`)
+        },
+        {
+            onSuccess: response => {
+                board.refetch();
+            }
+        }
+    );
+
+    const boardDeleteMutation = useMutation(
+        async () => {
+            return await instance.put(`/board/${boardId}`)
+        },
+        {
+            onSuccess: response => {
+                board.refetch();
+            }
+        }
+    );
+
     const likeMutation = useMutation(
         async () => {
             return await instance.post(`/board/${boardId}/like`)

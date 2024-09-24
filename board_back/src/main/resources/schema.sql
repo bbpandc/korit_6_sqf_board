@@ -66,3 +66,5 @@
 --BEGIN
 --    DELETE FROM comment WHERE parent_id = OLD.id;
 --END;
+
+ALTER TABLE USER ADD COLUMN email_valid INT NOT NULL DEFAULT 0;

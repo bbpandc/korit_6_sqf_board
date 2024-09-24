@@ -108,17 +108,28 @@ function UserLoginPage(props) {
 
     const handleLoginSubmitOnClick = async () => {
         const signinData = await signinApi(inputUser);
-        if(!signinData.isSuceess) {
-            if(signinData.errorStatus === 'fieldError') {
+        if (!signinData.isSuceess) {
+            if (signinData.errorStatus === 'fieldError') {
                 showFieldErrorMessage(signinData.error);
             }
-            if(signinData.errorStatus === 'loginError') {
+            if (signinData.errorStatus === 'loginError') {
                 let EmptyFieldErrors = {
                     username: <></>,
                     password: <></>,
                 };
                 setFieldErrorMessages(EmptyFieldErrors);
                 alert(signinData.error);
+            }
+            if (signinData.errorStatus === 'validEmail') {
+                if (window.confirm(`${signinData.error.message}`)) {
+                    const response = await instance.post("/auth/mail", {
+                        toEmail: signinData.error.email,
+                        username: inputUser.username
+                    });
+                    if (response.status === 200) {
+                        alert("인증메일을 전송하였습니다.");
+                    }
+                }
             }
             return;
         }

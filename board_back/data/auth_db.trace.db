@@ -2703,3 +2703,6 @@ with like_count as (
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:834)
+2024-09-20 11:28:24 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "BOARD_LIKE[*]"; expected "BACKUP, BEGIN"; SQL statement:
+BOARD_LIKE [42001-200]
